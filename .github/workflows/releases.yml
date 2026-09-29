@@ -1,0 +1,35 @@
+name: Publish RCON downloads
+
+on:
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Optional version to copy, e.g. v0.8.10; empty checks recent releases
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-rcon-downloads
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # This checkout contains only this public download repository.
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check publishing safeguards
+        run: python -m unittest discover -s tests
+      - name: Publish verified executables
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: python scripts/publish.py
