@@ -76,6 +76,6 @@ download the `.exe` asset to use the client.
 
 The publishing workflow checks the
 [public Reclaimer releases](https://github.com/ProjectReclaimer/project-reclaimer-releases/releases)
-twice an hour and verifies the RCON executable's SHA-256 checksum before
+every six hours and verifies the RCON executable's SHA-256 checksum before
 publishing it here. Maintainers can also run **Publish RCON downloads** manually
 for a particular version. It has no access to the private application repository.
